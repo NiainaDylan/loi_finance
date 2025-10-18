@@ -8,8 +8,12 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/nature-perspective")
 public class NaturePerspectiveController {
     
+    private final NaturePerspectiveService naturePerspectiveService;
+
     @Autowired
-    private NaturePerspectiveService naturePerspectiveService;
+    public NaturePerspectiveController(NaturePerspectiveService naturePerspectiveService) {
+        this.naturePerspectiveService = naturePerspectiveService;
+    }
     
    
 }

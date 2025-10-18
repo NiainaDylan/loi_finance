@@ -12,8 +12,12 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/suivi-dettes")
 public class SuiviDetteController {
     
+    private final SuiviDetteService suiviDetteService;
+
     @Autowired
-    private SuiviDetteService suiviDetteService;
+    public SuiviDetteController(SuiviDetteService suiviDetteService) {
+        this.suiviDetteService = suiviDetteService;
+    }
     
    
 }

@@ -10,8 +10,12 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/dette")
 public class DetteController {
     
+    private final DetteService detteService;
+
     @Autowired
-    private DetteService detteService;
+    public DetteController(DetteService detteService) {
+        this.detteService = detteService;
+    }
     
    
 }

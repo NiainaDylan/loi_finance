@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suivies</title>
+</head>
+<body>
+    <table>
+        <thead>
+            <tr>
+                <th>Nature</th>
+                <th>Montant</th>
+                <th>Annee</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="suivi : ${suivies}">
+                <td th:text="${suivi.natureRecette.libelle}"></td>
+                <td th:text="${suivi.montant}"></td>
+                <td th:text="${suivi.annee}"></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
