@@ -9,8 +9,12 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/perspectives-economiques")
 public class PerspectiveEconomiqueController {
     
+    private final PerspectiveEconomiqueService perspectiveEconomiqueService;
+
     @Autowired
-    private PerspectiveEconomiqueService perspectiveEconomiqueService;
+    public PerspectiveEconomiqueController(PerspectiveEconomiqueService perspectiveEconomiqueService) {
+        this.perspectiveEconomiqueService = perspectiveEconomiqueService;
+    }
     
    
 }

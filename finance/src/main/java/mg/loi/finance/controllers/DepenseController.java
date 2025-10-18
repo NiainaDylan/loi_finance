@@ -9,8 +9,12 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/depense")
 public class DepenseController {
     
+    private final DepenseService depenseService;
+
     @Autowired
-    private DepenseService depenseService;
+    public DepenseController(DepenseService depenseService) {
+        this.depenseService = depenseService;
+    }
     
    
 }

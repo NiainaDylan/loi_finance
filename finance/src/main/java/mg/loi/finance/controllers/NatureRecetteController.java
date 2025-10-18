@@ -9,8 +9,12 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/nature-recette")
 public class NatureRecetteController {
     
+    private final NatureRecetteService natureRecetteService;
+
     @Autowired
-    private NatureRecetteService natureRecetteService;
+    public NatureRecetteController(NatureRecetteService natureRecetteService) {
+        this.natureRecetteService = natureRecetteService;
+    }
     
    
 }

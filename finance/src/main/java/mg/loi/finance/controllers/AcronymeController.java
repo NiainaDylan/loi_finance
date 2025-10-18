@@ -9,8 +9,12 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/acronymes")
 public class AcronymeController {
     
+    private final AcronymeService acronymeService;
+
     @Autowired
-    private AcronymeService acronymeService;
+    public AcronymeController(AcronymeService acronymeService) {
+        this.acronymeService = acronymeService;
+    }
     
    
 }

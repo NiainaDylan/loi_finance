@@ -9,8 +9,12 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/suivi-indicateurs")
 public class SuiviIndicateurController {
     
+    private final SuiviIndicateurService suiviIndicateurService;
+
     @Autowired
-    private SuiviIndicateurService suiviIndicateurService;
+    public SuiviIndicateurController(SuiviIndicateurService suiviIndicateurService) {
+        this.suiviIndicateurService = suiviIndicateurService;
+    }
     
    
 }

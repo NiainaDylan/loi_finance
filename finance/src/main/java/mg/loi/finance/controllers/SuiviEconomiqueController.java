@@ -11,8 +11,12 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/suivi-economiques")
 public class SuiviEconomiqueController {
     
+    private final SuiviEconomiqueService suiviEconomiqueService;
+
     @Autowired
-    private SuiviEconomiqueService suiviEconomiqueService;
+    public SuiviEconomiqueController(SuiviEconomiqueService suiviEconomiqueService) {
+        this.suiviEconomiqueService = suiviEconomiqueService;
+    }
     
    
 }

@@ -9,8 +9,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/rubrique-secteur")
 public class RubriqueSecteurController {
     
-    @Autowired
-    private RubriqueSecteurService rubriqueSecteurService;
+    private final RubriqueSecteurService rubriqueSecteurService;
     
+    @Autowired
+    public RubriqueSecteurController(RubriqueSecteurService rubriqueSecteurService) {
+        this.rubriqueSecteurService = rubriqueSecteurService;
+    }
    
 }

@@ -13,8 +13,12 @@ import java.util.Optional;
 @RequestMapping("/suivi-financier-depenses")
 public class SuiviFinancierDepenseController {
     
+    private final SuiviFinancierDepenseService suiviFinancierDepenseService;
+
     @Autowired
-    private SuiviFinancierDepenseService suiviFinancierDepenseService;
+    public SuiviFinancierDepenseController(SuiviFinancierDepenseService suiviFinancierDepenseService) {
+        this.suiviFinancierDepenseService = suiviFinancierDepenseService;
+    }
     
    
 }

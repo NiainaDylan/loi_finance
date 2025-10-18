@@ -9,7 +9,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/indicateurs")
 public class IndicateurController {
     
+    private final IndicateurService indicateurService;
+
     @Autowired
-    private IndicateurService indicateurService;
+    public IndicateurController(IndicateurService indicateurService) {
+        this.indicateurService = indicateurService;
+    }
    
 }
