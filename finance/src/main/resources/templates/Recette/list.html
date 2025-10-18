@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liste</title>
+</head>
+<body>
+    <ul>
+        <li th:each="recette : ${recettes}" >
+            <a th:href="@{\suivi-financier-recettes\{idRecette} (idRecette=${recette.id})}"
+               th:text="${recette.nature}">
+            </a>
+        </li>
+    </ul>
+</body>
