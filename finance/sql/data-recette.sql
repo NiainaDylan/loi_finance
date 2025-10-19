@@ -5,14 +5,14 @@ INSERT INTO recette (nature) VALUES
 ('Dons');
 
 INSERT INTO nature_recette (libelle, id_recette) VALUES 
-('Impôt sur les revenus', 1),
-('Impôt sur les revenus Salariaux et Assimiles', 1),
-('Impôt sur les revenus des Capitaux Mobiliers', 1),
-('Impôt sur les plus-values Immobilieres', 1),
-('Impôt Synthétique', 1),
+('Impot sur les revenus', 1),
+('Impot sur les revenus Salariaux et Assimiles', 1),
+('Impot sur les revenus des Capitaux Mobiliers', 1),
+('Impot sur les plus-values Immobilieres', 1),
+('Impot Synthétique', 1),
 ('Droit d''Enregistrement', 1),
 ('Taxe sur la Valeur Ajoutée (y compris Taxe sur les transactions Mobiles)', 1),
-('Impôt sur les marchés Publics', 1),
+('Impot sur les marchés Publics', 1),
 ('Droit d''Accise (y compris Taxe environnementale)', 1),
 ('Taxes sur les Assurances', 1),
 ('Droit de Timbres', 1),

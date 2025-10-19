@@ -6,9 +6,10 @@
     <title>Liste</title>
 </head>
 <body>
+    <h1>Liste des recettes</h1>
     <ul>
-        <li th:each="recette : ${recettes}" >
-            <a th:href="@{\suivi-financier-recettes\{idRecette} (idRecette=${recette.id})}"
+        <li th:each="recette : ${recettes}">
+            <a th:href="@{/suivi-financier-recettes/{idRecette}(idRecette=${recette.idRecette})}" 
                th:text="${recette.nature}">
             </a>
         </li>
