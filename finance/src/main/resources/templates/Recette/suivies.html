@@ -6,19 +6,36 @@
     <title>Suivies</title>
 </head>
 <body>
-    <table>
+    <table border="1" width="1000">
         <thead>
             <tr>
                 <th>Nature</th>
-                <th>Montant</th>
-                <th>Annee</th>
+                <th>LFR 2024</th>
+                <th>LF 2025</th>
             </tr>
         </thead>
         <tbody>
-            <tr th:each="suivi : ${suivies}">
-                <td th:text="${suivi.natureRecette.libelle}"></td>
-                <td th:text="${suivi.montant}"></td>
-                <td th:text="${suivi.annee}"></td>
+            <tr th:each="nature : ${natures}">
+                <td th:text="${nature.libelle}"></td>
+                <td>
+                    <span th:each="suivi : ${suivies2024}">
+                        <span th:if="${suivi.natureRecette.idNature == nature.idNature}">
+                            <span th:text="${suivi.montant}"></span>
+                        </span>
+                    </span>
+                </td>
+                <td>
+                    <span th:each="suivi : ${suivies2025}">
+                        <span th:if="${suivi.natureRecette.idNature == nature.idNature}">
+                            <span th:text="${suivi.montant}"></span>
+                        </span>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td><strong>TOTAL</strong></td>
+                <td th:text="${total2024}"></td>
+                <td th:text="${total2025}"></td>
             </tr>
         </tbody>
     </table>
