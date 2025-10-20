@@ -20,13 +20,11 @@
     </div>
 
     <script th:inline="javascript">
-        // Récupérer les données du controller
-        const labels = /*[[${labels}]]*/ []; // ["2024", "2025"] à gauche
-        const categories = /*[[${categories}]]*/ []; // ["Impôts", "Douanes", "Recettes non fiscales", "Dons"]
+        const labels = /*[[${labels}]]*/ []; 
+        const categories = /*[[${categories}]]*/ []; 
         const montants2024 = /*[[${montants2024}]]*/ [];
         const montants2025 = /*[[${montants2025}]]*/ [];
         
-        // Couleurs pour chaque catégorie
         const colors = [
             'rgba(54, 163, 235, 0.252)',  // Impôts
             'rgba(99, 187, 255, 0.7)',  // Douanes
@@ -34,7 +32,6 @@
             'rgba(221, 237, 78, 0.74)'   // Dons
         ];
         
-        // Créer les datasets pour chaque catégorie
         const datasets = categories.map((category, index) => {
             return {
                 label: category,
@@ -45,16 +42,15 @@
             };
         });
         
-        // Créer le graphique horizontal empilé
         const ctx = document.getElementById('recetteChart').getContext('2d');
         new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: labels, // "2024", "2025" à gauche
+                labels: labels, // axe des Y
                 datasets: datasets
             },
             options: {
-                indexAxis: 'y', // Graphique horizontal
+                indexAxis: 'y', // horizontalement
                 responsive: true,
                 maintainAspectRatio: false,
                 plugins: {
@@ -83,7 +79,7 @@
                 scales: {
                     x: {
                         beginAtZero: true,
-                        stacked: true, // Empiler horizontalement
+                        stacked: true, 
                         title: {
                             display: true,
                             text: 'Milliards d\'Ariary'
@@ -92,14 +88,14 @@
                             callback: function(value) {
                                 return value.toLocaleString() + ' Md';
                             },
-                            stepSize: 2000 // Échelle tous les 2000 milliards
+                            stepSize: 2000 
                         },
                         grid: {
                             color: 'rgba(0,0,0,0.1)'
                         }
                     },
                     y: {
-                        stacked: true, // Empiler horizontalement
+                        stacked: true, 
                         grid: {
                             display: false
                         }
