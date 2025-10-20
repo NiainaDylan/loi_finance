@@ -17,4 +17,13 @@ public interface SuiviFinancierRecetteRepository extends JpaRepository<SuiviFina
         s.natureRecette.recette.id = :idRecette   
             """)
     List<SuiviFinancierRecette> findByRecetteId(@Param("idRecette") Long idRecette);
+
+    // Somme des montants pour une recette a une annee donnee
+    @Query("""
+        SELECT sum(sfr.montant) as s
+        FROM SuiviFinancierRecette sfr 
+        WHERE sfr.natureRecette.recette.idRecette = :idRecette
+        AND sfr.annee = :annee
+            """)
+    double recetteAvecSomme(@Param("idRecette") Long idRecette, @Param("annee") int annee);
 }

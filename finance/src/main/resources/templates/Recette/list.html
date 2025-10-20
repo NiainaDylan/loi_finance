@@ -8,7 +8,9 @@
 <body>
     <h1>Liste des recettes</h1>
     <ul>
-        <li th:href="#" th:text="Recettes par source"></li>
+        <li>
+            <a th:href="@{/suivi-financier-recettes/recette-par-source}" th:text="Recettes + ' ' + par + ' ' +source"></a>
+        </li>
         <li th:each="recette : ${recettes}">
             <a th:href="@{/suivi-financier-recettes/{idRecette}(idRecette=${recette.idRecette})}" 
                th:text="${recette.nature}">

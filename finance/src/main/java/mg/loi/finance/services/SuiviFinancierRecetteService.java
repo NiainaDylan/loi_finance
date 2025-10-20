@@ -23,4 +23,8 @@ public class SuiviFinancierRecetteService extends BaseService<SuiviFinancierRece
     public List<SuiviFinancierRecette> getByRecetteId(Long idRecette) {
         return suiviFinancierRecetteRepository.findByRecetteId(idRecette);
     }
+
+    public double recetteAvecSomme(Long idRecette, int annee) {
+        return suiviFinancierRecetteRepository.recetteAvecSomme(idRecette, annee);
+    }
 }
