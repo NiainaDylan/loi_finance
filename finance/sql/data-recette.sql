@@ -92,3 +92,13 @@ INSERT INTO suivi_financier_recette (montant, annee, id_nature) VALUES
 (5.2, 2025, 25),
 (31.0, 2025, 26),
 (2445.6, 2025, 27);
+
+-- RECETTE PAR SOURCE
+INSERT INTO recette(nature) VALUES ('Recettes par source');
+
+INSERT INTO nature_recette (libelle, id_recette) VALUES 
+('Impots', 5),
+('Douanes', 5),
+('Recettes non fiscales', 5),
+('Dons', 5);
+
