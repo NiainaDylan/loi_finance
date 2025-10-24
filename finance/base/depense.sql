@@ -204,6 +204,6 @@ INSERT INTO acronyme (libelle, meaning) VALUES
 ('PLF', 'Projet de Loi de Finances'),
 ('PTF', 'Partenaires Technique et Financier'),
 ('SADC', 'Southern African Development Community'),
-('TAFPB', 'Taxe Annexe à l''IFPB'),
+('TAFPB', 'Taxe Annexe à l IFPB'),
 ('TTM', 'Taxe sur les Transactions Mobiles'),
 ('TVA', 'Taxe sur la Valeur Ajoutee');

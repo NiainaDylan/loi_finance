@@ -36,29 +36,31 @@ public class SuiviDetteController {
         List<SuiviDette> suivis = suiviDetteService.findAll();
         List<Dette> dettesAll = detteService.findAll();
 
-        List<Dette> dettes = dettesAll;
-        if (detteId != null) {
-            dettes = dettes.stream().filter(d -> detteId.equals(d.getId())).collect(Collectors.toList());
-        }
+    List<Dette> dettes = dettesAll;
+    // Assign filtered list once so it remains effectively final for lambdas
+    List<Dette> dettesFiltered = (detteId != null)
+        ? dettes.stream().filter(d -> detteId.equals(d.getId())).collect(Collectors.toList())
+        : dettes;
 
         // années
-        Set<Integer> annees = suivis.stream().map(SuiviDette::getAnnee).collect(Collectors.toCollection(TreeSet::new));
-        if (fromYear != null || toYear != null) {
-            int from = (fromYear != null) ? fromYear : annees.stream().findFirst().orElse(0);
-            int to = (toYear != null) ? toYear : annees.stream().reduce((first, second) -> second).orElse(from);
-            final int f = from; final int t = to;
-            annees = annees.stream().filter(a -> a >= f && a <= t).collect(Collectors.toCollection(TreeSet::new));
-        }
+    Set<Integer> annees = suivis.stream().map(SuiviDette::getAnnee).collect(Collectors.toCollection(TreeSet::new));
+    // Compute range and assign filtered years once so it is effectively final for lambdas
+    int from = (fromYear != null) ? fromYear : annees.stream().findFirst().orElse(0);
+    int to = (toYear != null) ? toYear : annees.stream().reduce((first, second) -> second).orElse(from);
+    final int f = from; final int t = to;
+    Set<Integer> anneesFiltered = (fromYear != null || toYear != null)
+        ? annees.stream().filter(a -> a >= f && a <= t).collect(Collectors.toCollection(TreeSet::new))
+        : annees;
 
         // Filtrer suivis
         List<SuiviDette> suivisFiltres = suivis.stream()
                 .filter(s -> s.getDette() != null)
-                .filter(s -> dettes.stream().anyMatch(d -> d.getId().equals(s.getDette().getId())))
-                .filter(s -> annees.contains(s.getAnnee()))
+                .filter(s -> dettesFiltered.stream().anyMatch(d -> d.getId().equals(s.getDette().getId())))
+                .filter(s -> anneesFiltered.contains(s.getAnnee()))
                 .collect(Collectors.toList());
 
         Map<Integer, BigDecimal> totauxParAnnee = new HashMap<>();
-        for (Integer annee : annees) {
+        for (Integer annee : anneesFiltered) {
             BigDecimal total = suivisFiltres.stream().filter(s -> s.getAnnee() == annee).map(SuiviDette::getMontant).reduce(BigDecimal.ZERO, BigDecimal::add);
             totauxParAnnee.put(annee, total);
         }
@@ -76,16 +78,16 @@ public class SuiviDetteController {
         }
 
         // Pagination
-        int totalItems = dettes.size();
+    int totalItems = dettesFiltered.size();
         int totalPages = (int) Math.ceil((double) totalItems / size);
         if (page < 0) page = 0;
         if (page >= totalPages && totalPages > 0) page = totalPages - 1;
         int fromIndex = page * size;
         int toIndex = Math.min(fromIndex + size, totalItems);
-        List<Dette> dettesPage = dettes.subList(fromIndex, toIndex);
+    List<Dette> dettesPage = dettesFiltered.subList(fromIndex, toIndex);
 
         model.addAttribute("dettes", dettesPage);
-        model.addAttribute("annees", annees);
+    model.addAttribute("annees", anneesFiltered);
         model.addAttribute("totauxParAnnee", totauxParAnnee);
         model.addAttribute("montantsParDetteAnnee", montantsParDetteParAnnee);
 
