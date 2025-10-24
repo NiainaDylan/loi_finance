@@ -46,33 +46,28 @@ public class SuiviFinancierRecetteController {
         List<NatureRecette> naturesAll = natureRecetteService.findAll();
         List<Recette> recettes = recetteService.findAll();
 
-        List<NatureRecette> allNatures = naturesAll;
-        List<NatureRecette> natures = naturesAll;
-        if (recetteId != null) {
-            natures = natures.stream()
-                    .filter(n -> n.getRecette() != null && recetteId.equals(n.getRecette().getIdRecette()))
-                    .collect(Collectors.toList());
-        }
-        if (natureId != null) {
-            natures = natures.stream()
-                    .filter(n -> natureId.equals(n.getIdNature()))
-                    .collect(Collectors.toList());
-        }
+    List<NatureRecette> allNatures = naturesAll;
+    // Build filtered natures in a single stream pipeline so the local variable is effectively final
+    List<NatureRecette> naturesFiltered = naturesAll.stream()
+        .filter(n -> recetteId == null || (n.getRecette() != null && recetteId.equals(n.getRecette().getIdRecette())))
+        .filter(n -> natureId == null || natureId.equals(n.getIdNature()))
+        .collect(Collectors.toList());
 
         // années
-        Set<Integer> annees = suivis.stream().map(SuiviFinancierRecette::getAnnee).collect(Collectors.toCollection(TreeSet::new));
-        if (fromYear != null || toYear != null) {
-            int from = (fromYear != null) ? fromYear : annees.stream().findFirst().orElse(0);
-            int to = (toYear != null) ? toYear : annees.stream().reduce((first, second) -> second).orElse(from);
-            final int f = from; final int t = to;
-            annees = annees.stream().filter(a -> a >= f && a <= t).collect(Collectors.toCollection(TreeSet::new));
-        }
+    Set<Integer> annees = suivis.stream().map(SuiviFinancierRecette::getAnnee).collect(Collectors.toCollection(TreeSet::new));
+    // Compute filtered years once so it is effectively final for lambdas
+    int from = (fromYear != null) ? fromYear : annees.stream().findFirst().orElse(0);
+    int to = (toYear != null) ? toYear : annees.stream().reduce((first, second) -> second).orElse(from);
+    final int f = from; final int t = to;
+    Set<Integer> anneesFiltered = (fromYear != null || toYear != null)
+        ? annees.stream().filter(a -> a >= f && a <= t).collect(Collectors.toCollection(TreeSet::new))
+        : annees;
 
-        List<SuiviFinancierRecette> suivisFiltres = suivis.stream()
-                .filter(s -> s.getNatureRecette() != null)
-                .filter(s -> natures.stream().anyMatch(n -> n.getIdNature().equals(s.getNatureRecette().getIdNature())))
-                .filter(s -> annees.contains(s.getAnnee()))
-                .collect(Collectors.toList());
+    List<SuiviFinancierRecette> suivisFiltres = suivis.stream()
+        .filter(s -> s.getNatureRecette() != null)
+        .filter(s -> naturesFiltered.stream().anyMatch(n -> n.getIdNature().equals(s.getNatureRecette().getIdNature())))
+        .filter(s -> anneesFiltered.contains(s.getAnnee()))
+        .collect(Collectors.toList());
 
         Map<Integer, BigDecimal> totauxParAnnee = new HashMap<>();
         for (Integer annee : annees) {
@@ -100,19 +95,19 @@ public class SuiviFinancierRecetteController {
             comparator = Comparator.comparing(n -> n.getRecette() != null ? n.getRecette().getNature() : "", Comparator.nullsFirst(String::compareToIgnoreCase));
         }
         if ("desc".equalsIgnoreCase(sortDir)) comparator = comparator.reversed();
-        natures = natures.stream().sorted(comparator).collect(Collectors.toList());
+        List<NatureRecette> naturesSorted = naturesFiltered.stream().sorted(comparator).collect(Collectors.toList());
 
-        int totalItems = natures.size();
+        int totalItems = naturesSorted.size();
         int totalPages = (int) Math.ceil((double) totalItems / size);
         if (page < 0) page = 0;
         if (page >= totalPages && totalPages > 0) page = totalPages - 1;
         int fromIndex = page * size;
         int toIndex = Math.min(fromIndex + size, totalItems);
-        List<NatureRecette> naturesPage = natures.subList(fromIndex, toIndex);
+    List<NatureRecette> naturesPage = naturesSorted.subList(fromIndex, toIndex);
 
-        model.addAttribute("suivis", suivisFiltres);
-        model.addAttribute("natures", naturesPage);
-        model.addAttribute("annees", annees);
+    model.addAttribute("suivis", suivisFiltres);
+    model.addAttribute("natures", naturesPage);
+    model.addAttribute("annees", anneesFiltered);
         model.addAttribute("totauxParAnnee", totauxParAnnee);
         model.addAttribute("montantsParNatureAnnee", montantsParNatureParAnnee);
 
