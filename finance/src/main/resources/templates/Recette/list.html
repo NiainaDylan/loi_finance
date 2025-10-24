@@ -69,10 +69,14 @@
                 <thead>
                     <tr>
                         <th>
-                            <a th:href="@{/suivi-financier-recettes(recetteId=${recetteId}, natureId=${natureId}, fromYear=${fromYear}, toYear=${toYear}, page=0, size=${size}, sortField='recette', sortDir=${sortField=='recette' && sortDir=='asc' ? 'desc' : 'asc'})" th:text="'Recette' + (sortField=='recette' ? (sortDir=='asc' ? ' ▲' : ' ▼') : '')"></a>
+                            <a th:with="newSortDir=${sortField=='recette' and sortDir=='asc' ? 'desc' : 'asc'}"
+                               th:href="@{/suivi-financier-recettes(recetteId=${recetteId}, natureId=${natureId}, fromYear=${fromYear}, toYear=${toYear}, page=0, size=${size}, sortField='recette', sortDir=${newSortDir})"
+                               th:text="'Recette' + (sortField=='recette' ? (sortDir=='asc' ? ' ▲' : ' ▼') : '')"></a>
                         </th>
                         <th>
-                            <a th:href="@{/suivi-financier-recettes(recetteId=${recetteId}, natureId=${natureId}, fromYear=${fromYear}, toYear=${toYear}, page=0, size=${size}, sortField='libelle', sortDir=${sortField=='libelle' && sortDir=='asc' ? 'desc' : 'asc'})" th:text="'Libelle' + (sortField=='libelle' ? (sortDir=='asc' ? ' ▲' : ' ▼') : '')"></a>
+                            <a th:with="newSortDir=${sortField=='libelle' and sortDir=='asc' ? 'desc' : 'asc'}"
+                               th:href="@{/suivi-financier-recettes(recetteId=${recetteId}, natureId=${natureId}, fromYear=${fromYear}, toYear=${toYear}, page=0, size=${size}, sortField='libelle', sortDir=${newSortDir})"
+                               th:text="'Libelle' + (sortField=='libelle' ? (sortDir=='asc' ? ' ▲' : ' ▼') : '')"></a>
                         </th>
                         <th th:each="annee : ${annees}" class="montant" th:text="${annee}"></th>
                     </tr>

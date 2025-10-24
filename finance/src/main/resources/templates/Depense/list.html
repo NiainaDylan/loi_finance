@@ -47,11 +47,11 @@
 </head>
 <body>
     <div class="container" th:with="
-                prevPage=${currentPage > 0} ? ${currentPage - 1} : 0,
-                nextPage=${currentPage < (totalPages - 1)} ? ${currentPage + 1} : ${currentPage},
-                pagesSeq=${#numbers.sequence(0, totalPages - 1)},
-                sortDirDepense=${sortField == 'depense' and sortDir == 'asc'} ? 'desc' : 'asc',
-                sortDirRubrique=${sortField == 'rubrique' and sortDir == 'asc'} ? 'desc' : 'asc'">
+                prevPage = (currentPage > 0) ? currentPage - 1 : 0,
+                nextPage = (currentPage < (totalPages - 1)) ? currentPage + 1 : currentPage,
+                pagesSeq = #numbers.sequence(0, totalPages - 1),
+                sortDirDepense = (sortField == 'depense' and sortDir == 'asc') ? 'desc' : 'asc',
+                sortDirRubrique = (sortField == 'rubrique' and sortDir == 'asc') ? 'desc' : 'asc'">
         <h1>Suivi Financier des Dépenses</h1>
 
         <form method="get" class="controls" th:action="@{/suivi-financier-depenses}">
