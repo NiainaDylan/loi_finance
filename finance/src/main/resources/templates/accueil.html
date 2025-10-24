@@ -4,7 +4,64 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Accueil</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin:0; padding:0; }
+        .app { display: flex; min-height:100vh; }
+        .sidebar { width: 260px; background:#2c3e50; color:#ecf0f1; padding:20px; box-sizing:border-box; }
+        .brand { font-weight:700; font-size:1.1rem; margin-bottom:1rem; }
+        .menu-section { margin-bottom:1rem; }
+        .menu-section details { background:transparent; border:0; color:inherit; }
+        .menu-section summary { cursor:pointer; padding:8px 6px; list-style:none; }
+        .menu-section a { display:block; color:#ecf0f1; text-decoration:none; padding:6px 12px; border-radius:4px; }
+        .menu-section a:hover { background:rgba(236,240,241,0.08); }
+        .content { flex:1; padding:24px; box-sizing:border-box; }
+        .small-link { font-size:0.95rem; color:#2980b9; }
+        @media (max-width:700px){ .sidebar{width:100%; position:relative} .app{flex-direction:column} }
+    </style>
 </head>
 <body>
-    <p><a th:href="@{/recette/all}">Recettes</a></p>
+<div class="app">
+    <aside class="sidebar">
+        <div class="brand">LOI Finance - Accueil</div>
+
+        <nav>
+            <div class="menu-section">
+                <details>
+                    <summary>Recettes</summary>
+                    <a th:href="@{/recette/all}">Tableau récapitulatif</a>
+                    <a th:href="@{/recette/dashboard}">Dashboard</a>
+                </details>
+            </div>
+
+            <div class="menu-section">
+                <details>
+                    <summary>Dépenses</summary>
+                    <a th:href="@{/suivi-financier-depenses}">Tableau récapitulatif</a>
+                    <a th:href="@{/depense/dashboard}">Dashboard</a>
+                </details>
+            </div>
+
+            <div class="menu-section">
+                <details>
+                    <summary>Dettes</summary>
+                    <a th:href="@{/dette/all}">Tableau récapitulatif</a>
+                    <a th:href="@{/dette/dashboard}">Dashboard</a>
+                </details>
+            </div>
+
+        </nav>
+
+        <hr style="border:none;border-top:1px solid rgba(236,240,241,0.06); margin:12px 0;"/>
+        <div>Liens rapides :</div>
+        <div style="margin-top:8px;"><a th:href="@{/recette/all}" class="small-link">Recettes - liste</a></div>
+    </aside>
+
+    <main class="content">
+        <!-- zone de contenu principal, vous pouvez inclure ou étendre d'autres templates ici -->
+        <h1>Bienvenue</h1>
+        <p>Utilisez le menu à gauche pour naviguer vers les tableaux récapitulatifs et dashboards.</p>
+        <p><a th:href="@{/recette/all}">Recettes (ancienne liaison)</a></p>
+    </main>
+</div>
 </body>
+</html>
