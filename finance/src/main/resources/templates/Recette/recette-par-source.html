@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recette par source</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .chart-container {
+            width: 900px;
+            height: 400px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="chart-container">
+        <canvas id="recetteChart"></canvas>
+    </div>
+
+    <script th:inline="javascript">
+        const labels = /*[[${labels}]]*/ []; 
+        const categories = /*[[${categories}]]*/ []; 
+        const montants2024 = /*[[${montants2024}]]*/ [];
+        const montants2025 = /*[[${montants2025}]]*/ [];
+        
+        const colors = [
+            'rgba(54, 163, 235, 0.252)',  // Impôts
+            'rgba(99, 187, 255, 0.7)',  // Douanes
+            'rgba(102, 255, 99, 0.619)',  // Recettes non fiscales
+            'rgba(221, 237, 78, 0.74)'   // Dons
+        ];
+        
+        const datasets = categories.map((category, index) => {
+            return {
+                label: category,
+                data: [montants2024[index], montants2025[index]], // [valeur2024, valeur2025]
+                backgroundColor: colors[index],
+                borderColor: colors[index].replace('0.7', '1'),
+                borderWidth: 1
+            };
+        });
+        
+        const ctx = document.getElementById('recetteChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels, // axe des Y
+                datasets: datasets
+            },
+            options: {
+                indexAxis: 'y', // horizontalement
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Recettes totales de l\'État (en milliards d\'Ariary)',
+                        font: {
+                            size: 16
+                        }
+                    },
+                    legend: {
+                        position: 'bottom', // Légende en bas
+                        labels: {
+                            padding: 20,
+                            boxWidth: 15
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.dataset.label + ': ' + context.parsed.x + ' milliards';
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        stacked: true, 
+                        title: {
+                            display: true,
+                            text: 'Milliards d\'Ariary'
+                        },
+                        ticks: {
+                            callback: function(value) {
+                                return value.toLocaleString() + ' Md';
+                            },
+                            stepSize: 2000 
+                        },
+                        grid: {
+                            color: 'rgba(0,0,0,0.1)'
+                        }
+                    },
+                    y: {
+                        stacked: true, 
+                        grid: {
+                            display: false
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+    
+    <p style="text-align: center; margin-top: 20px; font-style: italic;">Source: LF 2025</p>
+</body>
+</html>
